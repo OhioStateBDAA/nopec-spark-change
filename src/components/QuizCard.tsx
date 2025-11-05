@@ -11,6 +11,8 @@ interface QuizQuestion {
   options: string[];
   correctAnswer: number;
   explanation: string;
+  points?: number[];
+  explanations?: string[];
 }
 
 interface QuizCardProps {
@@ -25,7 +27,11 @@ export const QuizCard = ({ questions, onComplete, currentModuleId }: QuizCardPro
   const [selectedAnswer, setSelectedAnswer] = useState<string>("");
   const [showResult, setShowResult] = useState(false);
   const [score, setScore] = useState(0);
+  const [totalPoints, setTotalPoints] = useState(0);
+  const [maxPoints, setMaxPoints] = useState(0);
   const [answered, setAnswered] = useState(false);
+  
+  const isImpactQuiz = questions[0].points !== undefined;
 
   const handleContinue = () => {
     const nextModuleId = currentModuleId + 1;
@@ -38,9 +44,23 @@ export const QuizCard = ({ questions, onComplete, currentModuleId }: QuizCardPro
   };
 
   const handleSubmit = () => {
-    const isCorrect = parseInt(selectedAnswer) === questions[currentQuestion].correctAnswer;
-    if (isCorrect) {
-      setScore(score + 1);
+    const question = questions[currentQuestion];
+    const answerIndex = parseInt(selectedAnswer);
+    
+    if (isImpactQuiz && question.points) {
+      // Impact quiz: add points from selected answer
+      const earnedPoints = question.points[answerIndex];
+      setTotalPoints(totalPoints + earnedPoints);
+      
+      // Calculate max points for this question
+      const maxQuestionPoints = Math.max(...question.points);
+      setMaxPoints(maxPoints + maxQuestionPoints);
+    } else {
+      // Regular quiz: check if correct
+      const isCorrect = answerIndex === question.correctAnswer;
+      if (isCorrect) {
+        setScore(score + 1);
+      }
     }
     setAnswered(true);
   };
@@ -51,19 +71,93 @@ export const QuizCard = ({ questions, onComplete, currentModuleId }: QuizCardPro
       setSelectedAnswer("");
       setAnswered(false);
     } else {
-      const finalScore = answered && parseInt(selectedAnswer) === questions[currentQuestion].correctAnswer 
-        ? score + 1 
-        : score;
-      const percentage = Math.round((finalScore / questions.length) * 100);
+      let percentage;
+      if (isImpactQuiz) {
+        // Calculate percentage based on total points earned vs max possible
+        percentage = Math.round((totalPoints / maxPoints) * 100);
+      } else {
+        // Regular quiz percentage
+        percentage = Math.round((score / questions.length) * 100);
+      }
       setShowResult(true);
       onComplete(percentage);
     }
   };
 
   if (showResult) {
-    const percentage = Math.round((score / questions.length) * 100);
+    const percentage = isImpactQuiz 
+      ? Math.round((totalPoints / maxPoints) * 100)
+      : Math.round((score / questions.length) * 100);
     const passed = percentage >= 66;
     
+    if (isImpactQuiz) {
+      // Impact Quiz Results
+      let resultTitle = "";
+      let resultMessage = "";
+      let savingsAmount = 0;
+      
+      if (percentage >= 80) {
+        resultTitle = "You're already pretty energy conscious";
+        resultMessage = "You're doing great, but NOPEC can still save you money through group buying power.";
+        savingsAmount = 50;
+      } else if (percentage >= 60) {
+        resultTitle = "You're on the right track";
+        resultMessage = "You've got good habits, but switching to NOPEC could save you even more without changing anything.";
+        savingsAmount = 75;
+      } else if (percentage >= 40) {
+        resultTitle = "There's room to save";
+        resultMessage = "You're leaving money on the table. NOPEC makes it dead simple to cut your bill without thinking about it.";
+        savingsAmount = 100;
+      } else {
+        resultTitle = "You could be saving way more";
+        resultMessage = "Real talk, you're probably overpaying. NOPEC handles everything automatically.";
+        savingsAmount = 150;
+      }
+      
+      const co2Reduction = Math.round(savingsAmount * 5.5);
+      
+      return (
+        <Card className="p-8 bg-gradient-card">
+          <div className="text-center mb-8">
+            <div className={`text-6xl font-bold mb-4 text-primary`}>
+              {percentage}%
+            </div>
+            <h3 className="text-2xl font-bold mb-3">{resultTitle}</h3>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              {resultMessage}
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-4 mb-8">
+            <Card className="p-6 bg-primary/5 border-primary/20">
+              <div className="text-3xl font-bold text-primary mb-2">${savingsAmount}</div>
+              <div className="text-sm text-muted-foreground">Potential yearly savings</div>
+            </Card>
+            
+            <Card className="p-6 bg-secondary/5 border-secondary/20">
+              <div className="text-3xl font-bold text-secondary mb-2">{co2Reduction} lbs</div>
+              <div className="text-sm text-muted-foreground">CO₂ reduced per year</div>
+            </Card>
+            
+            <Card className="p-6 bg-accent/5 border-accent/20">
+              <div className="text-3xl font-bold text-accent mb-2">10 hours</div>
+              <div className="text-sm text-muted-foreground">Saved shopping rates</div>
+            </Card>
+          </div>
+          
+          <Button 
+            variant="hero" 
+            size="lg" 
+            className="w-full"
+            onClick={handleContinue}
+          >
+            {currentModuleId < 8 ? "Continue to Next Module" : "Complete Course"}
+          </Button>
+        </Card>
+      );
+    }
+    
+    // Regular Quiz Results
     return (
       <Card className="p-8 text-center bg-gradient-card">
         <div className="mb-6">
@@ -121,6 +215,12 @@ export const QuizCard = ({ questions, onComplete, currentModuleId }: QuizCardPro
 
   const question = questions[currentQuestion];
   const isCorrect = answered && parseInt(selectedAnswer) === question.correctAnswer;
+  
+  // Show explanation immediately for impact quiz
+  const showExplanation = selectedAnswer !== "" && isImpactQuiz && question.explanations;
+  const selectedExplanation = showExplanation 
+    ? question.explanations![parseInt(selectedAnswer)]
+    : "";
 
   return (
     <Card className="p-8 bg-gradient-card animate-fade-in">
@@ -129,9 +229,11 @@ export const QuizCard = ({ questions, onComplete, currentModuleId }: QuizCardPro
           <span className="text-sm font-semibold text-muted-foreground">
             Question {currentQuestion + 1} of {questions.length}
           </span>
-          <span className="text-sm font-semibold text-primary">
-            Score: {score}/{questions.length}
-          </span>
+          {!isImpactQuiz && (
+            <span className="text-sm font-semibold text-primary">
+              Score: {score}/{questions.length}
+            </span>
+          )}
         </div>
         <h3 className="text-2xl font-bold mb-6">{question.question}</h3>
       </div>
@@ -139,37 +241,46 @@ export const QuizCard = ({ questions, onComplete, currentModuleId }: QuizCardPro
       <RadioGroup value={selectedAnswer} onValueChange={setSelectedAnswer} disabled={answered}>
         <div className="space-y-4">
           {question.options.map((option, index) => (
-            <div
-              key={index}
-              className={`flex items-center space-x-3 p-4 rounded-lg border-2 transition-all ${
-                answered
-                  ? index === question.correctAnswer
-                    ? "border-secondary bg-secondary/10"
+            <div key={index}>
+              <div
+                className={`flex items-center space-x-3 p-4 rounded-lg border-2 transition-all ${
+                  answered && !isImpactQuiz
+                    ? index === question.correctAnswer
+                      ? "border-secondary bg-secondary/10"
+                      : selectedAnswer === index.toString()
+                      ? "border-destructive bg-destructive/10"
+                      : "border-border"
                     : selectedAnswer === index.toString()
-                    ? "border-destructive bg-destructive/10"
-                    : "border-border"
-                  : "border-border hover:border-primary"
-              }`}
-            >
-              <RadioGroupItem value={index.toString()} id={`option-${index}`} />
-              <Label
-                htmlFor={`option-${index}`}
-                className="flex-1 cursor-pointer text-base"
+                    ? "border-primary bg-primary/10"
+                    : "border-border hover:border-primary"
+                }`}
               >
-                {option}
-              </Label>
-              {answered && index === question.correctAnswer && (
-                <CheckCircle2 className="w-5 h-5 text-secondary" />
-              )}
-              {answered && selectedAnswer === index.toString() && index !== question.correctAnswer && (
-                <XCircle className="w-5 h-5 text-destructive" />
-              )}
+                <RadioGroupItem value={index.toString()} id={`option-${index}`} />
+                <Label
+                  htmlFor={`option-${index}`}
+                  className="flex-1 cursor-pointer text-base"
+                >
+                  {option}
+                </Label>
+                {answered && !isImpactQuiz && index === question.correctAnswer && (
+                  <CheckCircle2 className="w-5 h-5 text-secondary" />
+                )}
+                {answered && !isImpactQuiz && selectedAnswer === index.toString() && index !== question.correctAnswer && (
+                  <XCircle className="w-5 h-5 text-destructive" />
+                )}
+              </div>
             </div>
           ))}
         </div>
       </RadioGroup>
 
-      {answered && (
+      {showExplanation && !answered && (
+        <div className="mt-6 p-4 rounded-lg bg-primary/10 border border-primary/20">
+          <p className="text-sm text-foreground">{selectedExplanation}</p>
+        </div>
+      )}
+
+      {answered && !isImpactQuiz && (
         <div className={`mt-6 p-4 rounded-lg ${isCorrect ? "bg-secondary/10" : "bg-destructive/10"}`}>
           <p className="font-semibold mb-2">
             {isCorrect ? "Correct!" : "Not quite right"}
@@ -187,7 +298,7 @@ export const QuizCard = ({ questions, onComplete, currentModuleId }: QuizCardPro
             onClick={handleSubmit}
             disabled={!selectedAnswer}
           >
-            Submit Answer
+            {isImpactQuiz ? "Next Question" : "Submit Answer"}
           </Button>
         ) : (
           <Button variant="success" size="lg" className="w-full" onClick={handleNext}>
