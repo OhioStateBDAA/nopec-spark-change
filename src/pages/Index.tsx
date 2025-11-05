@@ -3,8 +3,8 @@ import { ArrowRight, Zap, Users, Award, BookOpen } from "lucide-react";
 import { Link } from "react-router-dom";
 import heroImage from "@/assets/hero-energy.jpg";
 
-// Using Storyset mascot-style illustration
-const heroMascot = "https://stories.freepiklabs.com/storage/27678/Environment-01.svg";
+// Using Storyset mascot-style illustration - minimal clean style
+const heroMascot = "https://stories.freepiklabs.com/storage/12245/Forest-01.svg";
 
 const Index = () => {
   return (
