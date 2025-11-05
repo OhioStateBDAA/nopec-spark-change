@@ -1,7 +1,9 @@
+import { useState, useEffect } from "react";
 import { JourneyNode } from "@/components/JourneyNode";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Trophy, Target, Award } from "lucide-react";
+import { getCourseProgress, getCompletedModulesCount } from "@/lib/courseProgress";
 
 // Using Storyset illustrations via CDN
 const storysetImages = {
@@ -16,10 +18,17 @@ const storysetImages = {
 };
 
 const Modules = () => {
-  const totalPoints = 800;
-  const earnedPoints = 0;
-  const completedModules = 0;
+  const [progress, setProgress] = useState(getCourseProgress());
   const totalModules = 8;
+
+  // Refresh progress on mount and when returning to this page
+  useEffect(() => {
+    setProgress(getCourseProgress());
+  }, []);
+
+  const completedModules = getCompletedModulesCount();
+  const earnedPoints = progress.totalPoints;
+  const badges = progress.badges;
 
   const modules = [
     {
@@ -27,8 +36,8 @@ const Modules = () => {
       title: "Welcome to Energy Aggregation",
       description: "Discover what energy aggregation is and take your energy impact quiz!",
       isLocked: false,
-      isCompleted: false,
-      isCurrent: true,
+      isCompleted: progress.modules[1]?.completed || false,
+      isCurrent: !progress.modules[1]?.completed,
       points: 100,
       color: "green" as const,
       imageUrl: storysetImages.environment,
@@ -37,9 +46,9 @@ const Modules = () => {
       id: 2,
       title: "Power of Community Choice",
       description: "Learn how communities work together for better energy rates and cleaner power.",
-      isLocked: false,
-      isCompleted: false,
-      isCurrent: false,
+      isLocked: !progress.modules[1]?.completed,
+      isCompleted: progress.modules[2]?.completed || false,
+      isCurrent: progress.modules[1]?.completed && !progress.modules[2]?.completed,
       points: 100,
       color: "blue" as const,
       imageUrl: storysetImages.teamSpirit,
@@ -48,9 +57,9 @@ const Modules = () => {
       id: 3,
       title: "Sustainable Energy 101",
       description: "Explore solar, wind, and local energy through interactive experiences.",
-      isLocked: false,
-      isCompleted: false,
-      isCurrent: false,
+      isLocked: !progress.modules[2]?.completed,
+      isCompleted: progress.modules[3]?.completed || false,
+      isCurrent: progress.modules[2]?.completed && !progress.modules[3]?.completed,
       points: 100,
       color: "purple" as const,
       imageUrl: storysetImages.world,
@@ -59,9 +68,9 @@ const Modules = () => {
       id: 4,
       title: "Informed Energy Consumer",
       description: "Master energy bills and spot greenwashing like a pro.",
-      isLocked: true,
-      isCompleted: false,
-      isCurrent: false,
+      isLocked: !progress.modules[3]?.completed,
+      isCompleted: progress.modules[4]?.completed || false,
+      isCurrent: progress.modules[3]?.completed && !progress.modules[4]?.completed,
       points: 100,
       color: "yellow" as const,
       imageUrl: storysetImages.energySaving,
@@ -70,9 +79,9 @@ const Modules = () => {
       id: 5,
       title: "Careers & Advocacy",
       description: "Meet professionals and build your energy career skills.",
-      isLocked: true,
-      isCompleted: false,
-      isCurrent: false,
+      isLocked: !progress.modules[4]?.completed,
+      isCompleted: progress.modules[5]?.completed || false,
+      isCurrent: progress.modules[4]?.completed && !progress.modules[5]?.completed,
       points: 100,
       color: "green" as const,
       imageUrl: storysetImages.education,
@@ -81,9 +90,9 @@ const Modules = () => {
       id: 6,
       title: "NOPEC in Action",
       description: "See real youth-led initiatives creating local impact.",
-      isLocked: true,
-      isCompleted: false,
-      isCurrent: false,
+      isLocked: !progress.modules[5]?.completed,
+      isCompleted: progress.modules[6]?.completed || false,
+      isCurrent: progress.modules[5]?.completed && !progress.modules[6]?.completed,
       points: 100,
       color: "blue" as const,
       imageUrl: storysetImages.community,
@@ -92,9 +101,9 @@ const Modules = () => {
       id: 7,
       title: "Your Sustainable Future",
       description: "Set goals and access career toolkits for real change.",
-      isLocked: true,
-      isCompleted: false,
-      isCurrent: false,
+      isLocked: !progress.modules[6]?.completed,
+      isCompleted: progress.modules[7]?.completed || false,
+      isCurrent: progress.modules[6]?.completed && !progress.modules[7]?.completed,
       points: 100,
       color: "purple" as const,
       imageUrl: storysetImages.goals,
@@ -103,9 +112,9 @@ const Modules = () => {
       id: 8,
       title: "Capstone Challenge",
       description: "Earn your certificate and share your achievement!",
-      isLocked: true,
-      isCompleted: false,
-      isCurrent: false,
+      isLocked: !progress.modules[7]?.completed,
+      isCompleted: progress.modules[8]?.completed || false,
+      isCurrent: progress.modules[7]?.completed && !progress.modules[8]?.completed,
       points: 100,
       color: "yellow" as const,
       imageUrl: storysetImages.graduation,
@@ -147,7 +156,7 @@ const Modules = () => {
                 <Award className="w-6 h-6 text-info" />
               </div>
               <div>
-                <div className="text-2xl font-bold text-card-foreground">0</div>
+                <div className="text-2xl font-bold text-card-foreground">{badges}</div>
                 <div className="text-xs text-card-foreground/80">Badges</div>
               </div>
             </div>

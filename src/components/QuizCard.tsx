@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { CheckCircle2, XCircle } from "lucide-react";
+import { CheckCircle2, XCircle, AlertCircle } from "lucide-react";
 
 interface QuizQuestion {
   question: string;
@@ -51,32 +51,70 @@ export const QuizCard = ({ questions, onComplete, currentModuleId }: QuizCardPro
       setSelectedAnswer("");
       setAnswered(false);
     } else {
+      const finalScore = answered && parseInt(selectedAnswer) === questions[currentQuestion].correctAnswer 
+        ? score + 1 
+        : score;
+      const percentage = Math.round((finalScore / questions.length) * 100);
       setShowResult(true);
-      onComplete(Math.round((score / questions.length) * 100));
+      onComplete(percentage);
     }
   };
 
   if (showResult) {
+    const percentage = Math.round((score / questions.length) * 100);
+    const passed = percentage >= 66;
+    
     return (
       <Card className="p-8 text-center bg-gradient-card">
         <div className="mb-6">
-          {score / questions.length >= 0.7 ? (
-            <CheckCircle2 className="w-20 h-20 mx-auto text-secondary animate-pulse-glow" />
+          {passed ? (
+            <CheckCircle2 className="w-20 h-20 mx-auto text-primary animate-bounce-in" />
           ) : (
-            <XCircle className="w-20 h-20 mx-auto text-destructive" />
+            <AlertCircle className="w-20 h-20 mx-auto text-secondary animate-bounce-in" />
           )}
         </div>
-        <h3 className="text-3xl font-bold mb-4">Quiz Complete!</h3>
+        <h3 className="text-3xl font-bold mb-4">
+          {passed ? "Quiz Complete! 🎉" : "Keep Learning!"}
+        </h3>
         <p className="text-xl mb-6 text-muted-foreground">
           You scored <span className="font-bold text-primary">{score}</span> out of{" "}
           <span className="font-bold text-primary">{questions.length}</span>
         </p>
-        <div className="text-6xl font-bold text-primary mb-8">
-          {Math.round((score / questions.length) * 100)}%
+        <div className={`text-6xl font-bold mb-4 ${passed ? "text-primary" : "text-secondary"}`}>
+          {percentage}%
         </div>
-        <Button variant="success" size="lg" className="w-full" onClick={handleContinue}>
-          {currentModuleId < 8 ? "Continue to Next Module" : "Complete Course"}
-        </Button>
+        {passed ? (
+          <p className="text-primary font-semibold mb-8">
+            ✅ Passing Score: 66% or higher
+          </p>
+        ) : (
+          <p className="text-muted-foreground mb-8">
+            You need 66% or higher to pass. Try again to unlock the next module!
+          </p>
+        )}
+        <div className="space-y-3">
+          <Button 
+            variant={passed ? "success" : "hero"} 
+            size="lg" 
+            className="w-full"
+            onClick={handleContinue}
+          >
+            {passed 
+              ? (currentModuleId < 8 ? "Continue to Next Module" : "Complete Course")
+              : "Back to Modules"
+            }
+          </Button>
+          {!passed && (
+            <Button 
+              variant="outline" 
+              size="lg" 
+              className="w-full"
+              onClick={() => window.location.reload()}
+            >
+              Retake Quiz
+            </Button>
+          )}
+        </div>
       </Card>
     );
   }

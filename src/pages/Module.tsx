@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { QuizCard } from "@/components/QuizCard";
 import { ArrowLeft, CheckCircle2, PlayCircle, FileText } from "lucide-react";
+import { completeModule } from "@/lib/courseProgress";
+import { toast } from "sonner";
 
 // Using Storyset illustrations via CDN
 const moduleImages: Record<string, string> = {
@@ -23,6 +25,29 @@ const Module = () => {
   const [quizCompleted, setQuizCompleted] = useState(false);
   
   const moduleImage = moduleImages[id || "1"];
+  const currentModuleId = Number(id) || 1;
+
+  const handleQuizComplete = (score: number) => {
+    setQuizCompleted(true);
+    const passed = score >= 66;
+    
+    if (passed) {
+      // Save progress and update points/badges
+      const progress = completeModule(currentModuleId, score);
+      
+      // Show success toast with earned rewards
+      const pointsEarned = 100;
+      const badgesEarned = progress.badges;
+      
+      toast.success(`Module Complete! +${pointsEarned} points`, {
+        description: `You scored ${score}%! ${badgesEarned > 0 ? `🏆 Badge earned!` : ''}`,
+      });
+    } else {
+      toast.error("Score below passing threshold", {
+        description: "You need 66% or higher to complete this module. Try again!",
+      });
+    }
+  };
 
   const moduleContent = {
     title: "Welcome to Energy Aggregation & Sustainability",
@@ -77,11 +102,6 @@ const Module = () => {
       explanation: "Community choice aggregation allows communities to negotiate better rates and access cleaner energy options by leveraging collective purchasing power.",
     },
   ];
-
-  const handleQuizComplete = (score: number) => {
-    setQuizCompleted(true);
-    console.log("Quiz completed with score:", score);
-  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -161,14 +181,14 @@ const Module = () => {
               <Card className="p-8 text-center bg-gradient-card">
                 <h2 className="text-2xl font-bold mb-4">Ready to Test Your Knowledge?</h2>
                 <p className="text-muted-foreground mb-6">
-                  Complete the quiz to earn points and unlock the next module
+                  Complete the quiz to earn points and unlock the next module. You need 66% or higher to pass!
                 </p>
                 <Button variant="hero" size="lg" onClick={() => setShowQuiz(true)}>
                   Start Quiz
                 </Button>
               </Card>
             ) : (
-              <QuizCard questions={quizQuestions} onComplete={handleQuizComplete} currentModuleId={Number(id) || 1} />
+              <QuizCard questions={quizQuestions} onComplete={handleQuizComplete} currentModuleId={currentModuleId} />
             )}
           </div>
 
