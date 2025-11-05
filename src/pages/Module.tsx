@@ -4,12 +4,25 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { QuizCard } from "@/components/QuizCard";
 import { ArrowLeft, CheckCircle2, PlayCircle, FileText } from "lucide-react";
-import communityPowerImage from "@/assets/community-power.jpg";
+
+// Using Storyset illustrations via CDN
+const moduleImages: Record<string, string> = {
+  "1": "https://stories.freepiklabs.com/storage/14290/Environment_Artboard-1.svg",
+  "2": "https://stories.freepiklabs.com/storage/4531/team-spirit-bro-01.svg",
+  "3": "https://stories.freepiklabs.com/storage/15173/World_Mesa-de-trabajo-1.svg",
+  "4": "https://stories.freepiklabs.com/storage/16702/Environment-01.svg",
+  "5": "https://stories.freepiklabs.com/storage/13910/teaching_Artboard-1.svg",
+  "6": "https://stories.freepiklabs.com/storage/57204/Life-in-a-city-01.svg",
+  "7": "https://stories.freepiklabs.com/storage/16527/466-Team-work_Artboard-1.svg",
+  "8": "https://stories.freepiklabs.com/storage/15808/Teaching_Mesa-de-trabajo-1.svg",
+};
 
 const Module = () => {
   const { id } = useParams();
   const [showQuiz, setShowQuiz] = useState(false);
   const [quizCompleted, setQuizCompleted] = useState(false);
+  
+  const moduleImage = moduleImages[id || "1"];
 
   const moduleContent = {
     title: "Welcome to Energy Aggregation & Sustainability",
@@ -93,14 +106,14 @@ const Module = () => {
           <div className="lg:col-span-2 space-y-8">
             {/* Video Section */}
             <Card className="overflow-hidden bg-gradient-card">
-              <div className="aspect-video bg-muted flex items-center justify-center">
+              <div className="aspect-video bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center relative p-12">
                 <img 
-                  src={communityPowerImage} 
+                  src={moduleImage} 
                   alt="Module content"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain"
                 />
-                <div className="absolute inset-0 bg-foreground/20 flex items-center justify-center">
-                  <Button variant="hero" size="lg" className="rounded-full w-20 h-20">
+                <div className="absolute inset-0 bg-foreground/10 flex items-center justify-center hover:bg-foreground/5 transition-all">
+                  <Button variant="hero" size="lg" className="rounded-full w-20 h-20 shadow-xl">
                     <PlayCircle className="w-10 h-10" />
                   </Button>
                 </div>

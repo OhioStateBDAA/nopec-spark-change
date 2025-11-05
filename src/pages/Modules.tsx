@@ -3,6 +3,18 @@ import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Trophy, Flame, Target, Award } from "lucide-react";
 
+// Using Storyset illustrations via CDN
+const storysetImages = {
+  environment: "https://stories.freepiklabs.com/storage/14290/Environment_Artboard-1.svg",
+  teamSpirit: "https://stories.freepiklabs.com/storage/4531/team-spirit-bro-01.svg",
+  world: "https://stories.freepiklabs.com/storage/15173/World_Mesa-de-trabajo-1.svg",
+  energySaving: "https://stories.freepiklabs.com/storage/16702/Environment-01.svg",
+  education: "https://stories.freepiklabs.com/storage/13910/teaching_Artboard-1.svg",
+  community: "https://stories.freepiklabs.com/storage/57204/Life-in-a-city-01.svg",
+  goals: "https://stories.freepiklabs.com/storage/16527/466-Team-work_Artboard-1.svg",
+  graduation: "https://stories.freepiklabs.com/storage/15808/Teaching_Mesa-de-trabajo-1.svg",
+};
+
 const Modules = () => {
   const totalPoints = 800;
   const earnedPoints = 0;
@@ -20,6 +32,7 @@ const Modules = () => {
       isCurrent: true,
       points: 100,
       color: "green" as const,
+      imageUrl: storysetImages.environment,
     },
     {
       id: 2,
@@ -30,6 +43,7 @@ const Modules = () => {
       isCurrent: false,
       points: 100,
       color: "blue" as const,
+      imageUrl: storysetImages.teamSpirit,
     },
     {
       id: 3,
@@ -40,6 +54,7 @@ const Modules = () => {
       isCurrent: false,
       points: 100,
       color: "purple" as const,
+      imageUrl: storysetImages.world,
     },
     {
       id: 4,
@@ -50,6 +65,7 @@ const Modules = () => {
       isCurrent: false,
       points: 100,
       color: "yellow" as const,
+      imageUrl: storysetImages.energySaving,
     },
     {
       id: 5,
@@ -60,6 +76,7 @@ const Modules = () => {
       isCurrent: false,
       points: 100,
       color: "green" as const,
+      imageUrl: storysetImages.education,
     },
     {
       id: 6,
@@ -70,6 +87,7 @@ const Modules = () => {
       isCurrent: false,
       points: 100,
       color: "blue" as const,
+      imageUrl: storysetImages.community,
     },
     {
       id: 7,
@@ -80,6 +98,7 @@ const Modules = () => {
       isCurrent: false,
       points: 100,
       color: "purple" as const,
+      imageUrl: storysetImages.goals,
     },
     {
       id: 8,
@@ -90,6 +109,7 @@ const Modules = () => {
       isCurrent: false,
       points: 100,
       color: "yellow" as const,
+      imageUrl: storysetImages.graduation,
     },
   ];
 

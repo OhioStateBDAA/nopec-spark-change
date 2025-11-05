@@ -2,7 +2,9 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Zap, Users, Award, BookOpen } from "lucide-react";
 import { Link } from "react-router-dom";
 import heroImage from "@/assets/hero-energy.jpg";
-import mascot from "@/assets/energy-mascot.png";
+
+// Using Storyset mascot-style illustration
+const heroMascot = "https://stories.freepiklabs.com/storage/27678/Environment-01.svg";
 
 const Index = () => {
   return (
@@ -22,11 +24,13 @@ const Index = () => {
         
         <div className="container mx-auto px-4 z-10 text-center text-primary-foreground animate-fade-in">
           <div className="mb-6 flex justify-center">
-            <img 
-              src={mascot} 
-              alt="Energy Learning Mascot"
-              className="w-32 h-32 md:w-48 md:h-48 animate-bounce-in"
-            />
+            <div className="bg-card/20 backdrop-blur-md rounded-3xl p-6 animate-bounce-in">
+              <img 
+                src={heroMascot} 
+                alt="Energy Learning"
+                className="w-32 h-32 md:w-48 md:h-48"
+              />
+            </div>
           </div>
           <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
             Community Power:<br />

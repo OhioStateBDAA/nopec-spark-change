@@ -13,6 +13,7 @@ interface JourneyNodeProps {
   isCurrent: boolean;
   points: number;
   color: "green" | "yellow" | "purple" | "blue";
+  imageUrl: string;
 }
 
 const colorStyles = {
@@ -51,6 +52,7 @@ export const JourneyNode = ({
   isCurrent,
   points,
   color,
+  imageUrl,
 }: JourneyNodeProps) => {
   const styles = colorStyles[color];
 
@@ -71,10 +73,23 @@ export const JourneyNode = ({
           !isLocked && "hover:-translate-y-2 hover:scale-105"
         )}
       >
+        {/* Illustration Preview */}
+        <div className="h-32 overflow-hidden rounded-t-xl flex items-center justify-center bg-background/80 p-4">
+          <img 
+            src={imageUrl} 
+            alt={title}
+            className={cn(
+              "h-full w-auto object-contain transition-all duration-300",
+              isLocked && "grayscale opacity-50",
+              !isLocked && "group-hover:scale-110"
+            )}
+          />
+        </div>
+
         {/* Background Pattern */}
         <div className={cn("p-6 relative", styles.bg)}>
           {/* Status Icon */}
-          <div className="absolute -top-3 -right-3 w-16 h-16 rounded-full bg-card shadow-lg flex items-center justify-center border-4 border-background">
+          <div className="absolute -top-3 -right-3 w-16 h-16 rounded-full bg-card shadow-lg flex items-center justify-center border-4 border-background z-10">
             {isCompleted ? (
               <CheckCircle2 className="w-8 h-8 text-primary animate-bounce-in" />
             ) : isLocked ? (
@@ -89,14 +104,14 @@ export const JourneyNode = ({
           {/* Module Number Badge */}
           <Badge
             className={cn(
-              "absolute top-2 left-2 text-lg font-bold px-3 py-1",
+              "absolute top-2 left-2 text-lg font-bold px-3 py-1 z-10",
               isCompleted ? "bg-primary" : "bg-background/80 text-foreground"
             )}
           >
             {id}
           </Badge>
 
-          <div className="mt-8">
+          <div className="mt-4">
             <h3 className="text-xl font-bold mb-2 text-card-foreground pr-12 leading-tight">
               {title}
             </h3>
