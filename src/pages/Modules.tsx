@@ -1,7 +1,7 @@
 import { JourneyNode } from "@/components/JourneyNode";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Trophy, Flame, Target, Award } from "lucide-react";
+import { Trophy, Target, Award } from "lucide-react";
 
 // Using Storyset illustrations via CDN
 const storysetImages = {
@@ -18,7 +18,6 @@ const storysetImages = {
 const Modules = () => {
   const totalPoints = 800;
   const earnedPoints = 0;
-  const currentStreak = 0;
   const completedModules = 0;
   const totalModules = 8;
 
@@ -120,7 +119,7 @@ const Modules = () => {
       {/* Sticky Header Stats */}
       <div className="sticky top-0 z-50 bg-background/95 backdrop-blur-lg border-b-4 border-primary shadow-lg">
         <div className="container mx-auto px-4 py-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-3 gap-4">
             <div className="flex items-center gap-3 bg-gradient-success rounded-xl p-3 shadow-md">
               <div className="w-12 h-12 bg-background/80 rounded-full flex items-center justify-center">
                 <Trophy className="w-6 h-6 text-primary" />
@@ -128,16 +127,6 @@ const Modules = () => {
               <div>
                 <div className="text-2xl font-bold text-card-foreground">{earnedPoints}</div>
                 <div className="text-xs text-card-foreground/80">Points</div>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3 bg-gradient-warning rounded-xl p-3 shadow-md">
-              <div className="w-12 h-12 bg-background/80 rounded-full flex items-center justify-center">
-                <Flame className="w-6 h-6 text-secondary" />
-              </div>
-              <div>
-                <div className="text-2xl font-bold text-card-foreground">{currentStreak}</div>
-                <div className="text-xs text-card-foreground/80">Day Streak</div>
               </div>
             </div>
 
