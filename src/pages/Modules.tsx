@@ -1,127 +1,193 @@
-import { ModuleCard } from "@/components/ModuleCard";
-import { ProgressTracker } from "@/components/ProgressTracker";
-import communityPowerImage from "@/assets/community-power.jpg";
-import sustainableEnergyImage from "@/assets/sustainable-energy.jpg";
-import informedConsumerImage from "@/assets/informed-consumer.jpg";
+import { JourneyNode } from "@/components/JourneyNode";
+import { Card } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { Trophy, Flame, Target, Award } from "lucide-react";
 
 const Modules = () => {
+  const totalPoints = 800;
+  const earnedPoints = 0;
+  const currentStreak = 0;
+  const completedModules = 0;
+  const totalModules = 8;
+
   const modules = [
     {
       id: 1,
-      title: "Welcome to Energy Aggregation & Sustainability",
-      description: "Discover what energy aggregation is and how NOPEC empowers communities. Take your energy impact quiz!",
-      progress: 0,
+      title: "Welcome to Energy Aggregation",
+      description: "Discover what energy aggregation is and take your energy impact quiz!",
       isLocked: false,
       isCompleted: false,
-      imageUrl: communityPowerImage,
-      duration: "15 min",
+      isCurrent: true,
+      points: 100,
+      color: "green" as const,
     },
     {
       id: 2,
-      title: "The Power of Community Choice in Energy",
-      description: "Learn how Community Choice Aggregation (CCA) works and explore real case studies of bill savings and carbon reductions.",
-      progress: 0,
+      title: "Power of Community Choice",
+      description: "Learn how communities work together for better energy rates and cleaner power.",
       isLocked: false,
       isCompleted: false,
-      imageUrl: communityPowerImage,
-      duration: "20 min",
+      isCurrent: false,
+      points: 100,
+      color: "blue" as const,
     },
     {
       id: 3,
-      title: "Sustainable Energy Solutions 101",
-      description: "Explore solar, wind, and local energy mixes through interactive maps and understand green energy's impact in Ohio.",
-      progress: 0,
+      title: "Sustainable Energy 101",
+      description: "Explore solar, wind, and local energy through interactive experiences.",
       isLocked: false,
       isCompleted: false,
-      imageUrl: sustainableEnergyImage,
-      duration: "25 min",
+      isCurrent: false,
+      points: 100,
+      color: "purple" as const,
     },
     {
       id: 4,
-      title: "How to Be an Informed Energy Consumer",
-      description: "Master energy bills, spot greenwashing, and learn to choose suppliers and advocate for fair rates.",
-      progress: 0,
+      title: "Informed Energy Consumer",
+      description: "Master energy bills and spot greenwashing like a pro.",
       isLocked: true,
       isCompleted: false,
-      imageUrl: informedConsumerImage,
-      duration: "30 min",
+      isCurrent: false,
+      points: 100,
+      color: "yellow" as const,
     },
     {
       id: 5,
-      title: "Careers and Advocacy in Energy Sustainability",
-      description: "Meet young professionals, explore career paths, and create your energy skills LinkedIn statement.",
-      progress: 0,
+      title: "Careers & Advocacy",
+      description: "Meet professionals and build your energy career skills.",
       isLocked: true,
       isCompleted: false,
-      imageUrl: informedConsumerImage,
-      duration: "25 min",
+      isCurrent: false,
+      points: 100,
+      color: "green" as const,
     },
     {
       id: 6,
-      title: "NOPEC in Action: Community Impact",
-      description: "Watch mini-documentaries and story maps highlighting youth-led local sustainability initiatives.",
-      progress: 0,
+      title: "NOPEC in Action",
+      description: "See real youth-led initiatives creating local impact.",
       isLocked: true,
       isCompleted: false,
-      imageUrl: communityPowerImage,
-      duration: "20 min",
+      isCurrent: false,
+      points: 100,
+      color: "blue" as const,
     },
     {
       id: 7,
-      title: "Your Sustainable Future: Next Steps",
-      description: "Set your energy goals, access career toolkits, and join the pledge wall for action.",
-      progress: 0,
+      title: "Your Sustainable Future",
+      description: "Set goals and access career toolkits for real change.",
       isLocked: true,
       isCompleted: false,
-      imageUrl: sustainableEnergyImage,
-      duration: "15 min",
+      isCurrent: false,
+      points: 100,
+      color: "purple" as const,
     },
     {
       id: 8,
-      title: "Capstone Quiz & Certificate",
-      description: "Test your knowledge, earn badges, and get your shareable certificate for LinkedIn and social media.",
-      progress: 0,
+      title: "Capstone Challenge",
+      description: "Earn your certificate and share your achievement!",
       isLocked: true,
       isCompleted: false,
-      imageUrl: informedConsumerImage,
-      duration: "30 min",
+      isCurrent: false,
+      points: 100,
+      color: "yellow" as const,
     },
   ];
 
+  const progressPercentage = (completedModules / totalModules) * 100;
+
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <section className="bg-gradient-hero text-primary-foreground py-12">
-        <div className="container mx-auto px-4">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Course Modules</h1>
-          <p className="text-xl opacity-95 max-w-3xl">
-            Progress through 8 interactive modules to master energy aggregation and sustainability
-          </p>
-        </div>
-      </section>
+      {/* Sticky Header Stats */}
+      <div className="sticky top-0 z-50 bg-background/95 backdrop-blur-lg border-b-4 border-primary shadow-lg">
+        <div className="container mx-auto px-4 py-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="flex items-center gap-3 bg-gradient-success rounded-xl p-3 shadow-md">
+              <div className="w-12 h-12 bg-background/80 rounded-full flex items-center justify-center">
+                <Trophy className="w-6 h-6 text-primary" />
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-card-foreground">{earnedPoints}</div>
+                <div className="text-xs text-card-foreground/80">Points</div>
+              </div>
+            </div>
 
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Main Content */}
-          <div className="lg:col-span-2">
-            <div className="grid gap-6">
-              {modules.map((module, index) => (
-                <div key={module.id} className="animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
-                  <ModuleCard {...module} />
+            <div className="flex items-center gap-3 bg-gradient-warning rounded-xl p-3 shadow-md">
+              <div className="w-12 h-12 bg-background/80 rounded-full flex items-center justify-center">
+                <Flame className="w-6 h-6 text-secondary" />
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-card-foreground">{currentStreak}</div>
+                <div className="text-xs text-card-foreground/80">Day Streak</div>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 bg-gradient-purple rounded-xl p-3 shadow-md">
+              <div className="w-12 h-12 bg-background/80 rounded-full flex items-center justify-center">
+                <Target className="w-6 h-6 text-accent" />
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-card-foreground">
+                  {completedModules}/{totalModules}
                 </div>
-              ))}
+                <div className="text-xs text-card-foreground/80">Complete</div>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 bg-gradient-blue rounded-xl p-3 shadow-md">
+              <div className="w-12 h-12 bg-background/80 rounded-full flex items-center justify-center">
+                <Award className="w-6 h-6 text-info" />
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-card-foreground">0</div>
+                <div className="text-xs text-card-foreground/80">Badges</div>
+              </div>
             </div>
           </div>
+        </div>
+      </div>
 
-          {/* Sidebar */}
-          <div className="lg:col-span-1">
-            <div className="sticky top-4 space-y-6">
-              <ProgressTracker
-                totalModules={8}
-                completedModules={0}
-                points={0}
-                badges={0}
-              />
+      {/* Journey Path */}
+      <div className="container mx-auto px-4 py-12">
+        <div className="max-w-2xl mx-auto">
+          {/* Progress Card */}
+          <Card className="p-6 mb-12 bg-gradient-card shadow-xl border-4 border-primary/20 animate-fade-in">
+            <h2 className="text-2xl font-bold mb-4">Your Learning Journey</h2>
+            <div className="space-y-3">
+              <div className="flex justify-between text-sm font-semibold">
+                <span>Course Progress</span>
+                <span className="text-primary">{Math.round(progressPercentage)}%</span>
+              </div>
+              <Progress value={progressPercentage} className="h-4 bg-muted" />
+              <p className="text-sm text-muted-foreground">
+                Keep going! Complete all modules to earn your certificate 🎓
+              </p>
+            </div>
+          </Card>
+
+          {/* Journey Nodes */}
+          <div className="space-y-8 relative">
+            {/* Starting Point */}
+            <div className="flex justify-center mb-8">
+              <div className="bg-gradient-hero text-primary-foreground px-6 py-3 rounded-full font-bold text-lg shadow-xl animate-bounce-in">
+                🚀 Start Here!
+              </div>
+            </div>
+
+            {modules.map((module, index) => (
+              <div
+                key={module.id}
+                style={{ animationDelay: `${index * 0.1}s` }}
+                className="relative"
+              >
+                <JourneyNode {...module} />
+              </div>
+            ))}
+
+            {/* End Point */}
+            <div className="flex justify-center mt-12">
+              <div className="bg-gradient-warning text-card-foreground px-6 py-3 rounded-full font-bold text-lg shadow-xl">
+                🏆 Certificate Awaits!
+              </div>
             </div>
           </div>
         </div>

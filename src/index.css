@@ -8,7 +8,7 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 210 20% 98%;
+    --background: 240 100% 99%;
     --foreground: 215 25% 15%;
 
     --card: 0 0% 100%;
@@ -17,40 +17,48 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 215 25% 15%;
 
-    --primary: 205 87% 29%;
+    --primary: 142 71% 45%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 142 76% 36%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 45 93% 58%;
+    --secondary-foreground: 215 25% 15%;
 
-    --muted: 210 20% 94%;
+    --muted: 240 20% 96%;
     --muted-foreground: 215 16% 47%;
 
-    --accent: 185 84% 44%;
+    --accent: 262 83% 58%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 215 20% 88%;
-    --input: 215 20% 88%;
-    --ring: 205 87% 29%;
+    --info: 199 89% 48%;
+    --info-foreground: 0 0% 100%;
 
-    --radius: 0.75rem;
+    --border: 240 20% 92%;
+    --input: 240 20% 92%;
+    --ring: 142 71% 45%;
 
-    /* Energy-themed gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(205 87% 29%) 0%, hsl(185 84% 44%) 100%);
-    --gradient-success: linear-gradient(135deg, hsl(142 76% 36%) 0%, hsl(142 76% 46%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(210 20% 99%) 100%);
+    --radius: 1rem;
+
+    /* Duolingo-inspired gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(142 71% 45%) 0%, hsl(142 71% 35%) 100%);
+    --gradient-success: linear-gradient(135deg, hsl(142 71% 45%) 0%, hsl(142 71% 55%) 100%);
+    --gradient-warning: linear-gradient(135deg, hsl(45 93% 58%) 0%, hsl(45 93% 68%) 100%);
+    --gradient-purple: linear-gradient(135deg, hsl(262 83% 58%) 0%, hsl(262 83% 68%) 100%);
+    --gradient-blue: linear-gradient(135deg, hsl(199 89% 48%) 0%, hsl(199 89% 58%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(240 100% 99%) 100%);
     
-    /* Shadows */
-    --shadow-sm: 0 2px 8px -2px hsl(205 87% 29% / 0.1);
-    --shadow-md: 0 4px 16px -4px hsl(205 87% 29% / 0.15);
-    --shadow-lg: 0 8px 32px -8px hsl(205 87% 29% / 0.2);
-    --shadow-glow: 0 0 32px hsl(185 84% 44% / 0.3);
+    /* Playful shadows */
+    --shadow-sm: 0 2px 8px -2px hsl(142 71% 45% / 0.15);
+    --shadow-md: 0 4px 16px -4px hsl(142 71% 45% / 0.2);
+    --shadow-lg: 0 8px 32px -8px hsl(142 71% 45% / 0.25);
+    --shadow-glow: 0 0 40px hsl(142 71% 45% / 0.4);
+    --shadow-xl: 0 20px 40px -10px hsl(142 71% 45% / 0.3);
 
     /* Animations */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
 
   .dark {

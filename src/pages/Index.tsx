@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Zap, Users, Award, BookOpen } from "lucide-react";
 import { Link } from "react-router-dom";
 import heroImage from "@/assets/hero-energy.jpg";
+import mascot from "@/assets/energy-mascot.png";
 
 const Index = () => {
   return (
@@ -20,6 +21,13 @@ const Index = () => {
         </div>
         
         <div className="container mx-auto px-4 z-10 text-center text-primary-foreground animate-fade-in">
+          <div className="mb-6 flex justify-center">
+            <img 
+              src={mascot} 
+              alt="Energy Learning Mascot"
+              className="w-32 h-32 md:w-48 md:h-48 animate-bounce-in"
+            />
+          </div>
           <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
             Community Power:<br />
             Energy Aggregation & Sustainability
@@ -29,11 +37,11 @@ const Index = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/modules">
-              <Button variant="hero" size="lg" className="text-lg px-8 py-6">
+              <Button variant="hero" size="lg" className="text-lg px-8 py-6 rounded-2xl">
                 Start Learning <ArrowRight className="ml-2" />
               </Button>
             </Link>
-            <Button variant="outline" size="lg" className="text-lg px-8 py-6 bg-primary-foreground/10 border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
+            <Button variant="outline" size="lg" className="text-lg px-8 py-6 rounded-2xl bg-card/20 border-card text-card hover:bg-card hover:text-primary backdrop-blur-sm">
               Take Impact Quiz
             </Button>
           </div>
@@ -46,9 +54,9 @@ const Index = () => {
           <h2 className="text-4xl font-bold text-center mb-16">Why This Course Matters</h2>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="text-center p-6 rounded-xl bg-card shadow-md hover:shadow-lg transition-all duration-300 animate-fade-in">
-              <div className="w-16 h-16 bg-gradient-hero rounded-full flex items-center justify-center mx-auto mb-4">
-                <Zap className="w-8 h-8 text-primary-foreground" />
+            <div className="text-center p-6 rounded-2xl bg-card shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300 animate-fade-in border-4 border-primary/20">
+              <div className="w-20 h-20 bg-gradient-hero rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                <Zap className="w-10 h-10 text-primary-foreground" />
               </div>
               <h3 className="text-xl font-bold mb-3">Empower Change</h3>
               <p className="text-muted-foreground">
@@ -56,9 +64,9 @@ const Index = () => {
               </p>
             </div>
 
-            <div className="text-center p-6 rounded-xl bg-card shadow-md hover:shadow-lg transition-all duration-300 animate-fade-in">
-              <div className="w-16 h-16 bg-gradient-success rounded-full flex items-center justify-center mx-auto mb-4">
-                <Users className="w-8 h-8 text-secondary-foreground" />
+            <div className="text-center p-6 rounded-2xl bg-card shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300 animate-fade-in border-4 border-secondary/20">
+              <div className="w-20 h-20 bg-gradient-warning rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                <Users className="w-10 h-10 text-card-foreground" />
               </div>
               <h3 className="text-xl font-bold mb-3">Community Focus</h3>
               <p className="text-muted-foreground">
@@ -66,9 +74,9 @@ const Index = () => {
               </p>
             </div>
 
-            <div className="text-center p-6 rounded-xl bg-card shadow-md hover:shadow-lg transition-all duration-300 animate-fade-in">
-              <div className="w-16 h-16 bg-gradient-hero rounded-full flex items-center justify-center mx-auto mb-4">
-                <Award className="w-8 h-8 text-primary-foreground" />
+            <div className="text-center p-6 rounded-2xl bg-card shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300 animate-fade-in border-4 border-accent/20">
+              <div className="w-20 h-20 bg-gradient-purple rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                <Award className="w-10 h-10 text-accent-foreground" />
               </div>
               <h3 className="text-xl font-bold mb-3">Career Ready</h3>
               <p className="text-muted-foreground">
@@ -76,9 +84,9 @@ const Index = () => {
               </p>
             </div>
 
-            <div className="text-center p-6 rounded-xl bg-card shadow-md hover:shadow-lg transition-all duration-300 animate-fade-in">
-              <div className="w-16 h-16 bg-gradient-success rounded-full flex items-center justify-center mx-auto mb-4">
-                <BookOpen className="w-8 h-8 text-secondary-foreground" />
+            <div className="text-center p-6 rounded-2xl bg-card shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300 animate-fade-in border-4 border-info/20">
+              <div className="w-20 h-20 bg-gradient-blue rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                <BookOpen className="w-10 h-10 text-info-foreground" />
               </div>
               <h3 className="text-xl font-bold mb-3">Interactive Learning</h3>
               <p className="text-muted-foreground">
@@ -99,7 +107,7 @@ const Index = () => {
             Join thousands of young people learning to make a difference in energy sustainability
           </p>
           <Link to="/modules">
-            <Button variant="hero" size="lg" className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 text-lg px-8 py-6">
+            <Button variant="hero" size="lg" className="bg-secondary text-secondary-foreground hover:bg-secondary/90 text-lg px-8 py-6 rounded-2xl shadow-xl hover:shadow-2xl">
               Explore Course Modules <ArrowRight className="ml-2" />
             </Button>
           </Link>
