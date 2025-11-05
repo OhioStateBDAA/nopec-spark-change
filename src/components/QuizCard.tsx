@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -15,14 +16,26 @@ interface QuizQuestion {
 interface QuizCardProps {
   questions: QuizQuestion[];
   onComplete: (score: number) => void;
+  currentModuleId: number;
 }
 
-export const QuizCard = ({ questions, onComplete }: QuizCardProps) => {
+export const QuizCard = ({ questions, onComplete, currentModuleId }: QuizCardProps) => {
+  const navigate = useNavigate();
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string>("");
   const [showResult, setShowResult] = useState(false);
   const [score, setScore] = useState(0);
   const [answered, setAnswered] = useState(false);
+
+  const handleContinue = () => {
+    const nextModuleId = currentModuleId + 1;
+    if (nextModuleId <= 8) {
+      navigate(`/module/${nextModuleId}`);
+    } else {
+      // Last module - go back to modules page
+      navigate("/modules");
+    }
+  };
 
   const handleSubmit = () => {
     const isCorrect = parseInt(selectedAnswer) === questions[currentQuestion].correctAnswer;
@@ -61,8 +74,8 @@ export const QuizCard = ({ questions, onComplete }: QuizCardProps) => {
         <div className="text-6xl font-bold text-primary mb-8">
           {Math.round((score / questions.length) * 100)}%
         </div>
-        <Button variant="success" size="lg" className="w-full">
-          Continue to Next Module
+        <Button variant="success" size="lg" className="w-full" onClick={handleContinue}>
+          {currentModuleId < 8 ? "Continue to Next Module" : "Complete Course"}
         </Button>
       </Card>
     );

@@ -168,7 +168,7 @@ const Module = () => {
                 </Button>
               </Card>
             ) : (
-              <QuizCard questions={quizQuestions} onComplete={handleQuizComplete} />
+              <QuizCard questions={quizQuestions} onComplete={handleQuizComplete} currentModuleId={Number(id) || 1} />
             )}
           </div>
 
