@@ -100,6 +100,52 @@ const Index = () => {
         </div>
       </section>
 
+      {/* NOPEC Support Section */}
+      <section className="py-20 bg-gradient-to-br from-secondary/10 via-background to-accent/10">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              How NOPEC Supports You
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              As a not-for-profit energy aggregator, NOPEC puts members first with exclusive benefits and unwavering support
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div className="bg-card rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-primary/10 hover:border-primary/30">
+              <div className="w-16 h-16 bg-gradient-hero rounded-full flex items-center justify-center mb-6 mx-auto">
+                <Zap className="w-8 h-8 text-primary-foreground" />
+              </div>
+              <h3 className="text-2xl font-bold mb-4 text-center">Lower Energy Costs</h3>
+              <p className="text-muted-foreground text-center">
+                Leverage collective buying power to secure competitive rates and save money on your energy bills
+              </p>
+            </div>
+
+            <div className="bg-card rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-secondary/10 hover:border-secondary/30">
+              <div className="w-16 h-16 bg-gradient-warning rounded-full flex items-center justify-center mb-6 mx-auto">
+                <Users className="w-8 h-8 text-card-foreground" />
+              </div>
+              <h3 className="text-2xl font-bold mb-4 text-center">Community First</h3>
+              <p className="text-muted-foreground text-center">
+                As a not-for-profit, every decision we make prioritizes member benefits over corporate profits
+              </p>
+            </div>
+
+            <div className="bg-card rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-accent/10 hover:border-accent/30">
+              <div className="w-16 h-16 bg-gradient-purple rounded-full flex items-center justify-center mb-6 mx-auto">
+                <BookOpen className="w-8 h-8 text-accent-foreground" />
+              </div>
+              <h3 className="text-2xl font-bold mb-4 text-center">Energy Education</h3>
+              <p className="text-muted-foreground text-center">
+                Free resources, workshops, and courses to help you understand and optimize your energy usage
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-20 bg-gradient-hero text-primary-foreground">
         <div className="container mx-auto px-4 text-center">
