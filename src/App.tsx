@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Modules from "./pages/Modules";
 import Module from "./pages/Module";
+import ImpactQuiz from "./pages/ImpactQuiz";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -20,6 +21,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/modules" element={<Modules />} />
           <Route path="/module/:id" element={<Module />} />
+          <Route path="/impact-quiz" element={<ImpactQuiz />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
