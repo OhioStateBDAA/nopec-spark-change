@@ -42,9 +42,9 @@ const Index = () => {
               <Button 
                 variant="outline" 
                 size="lg" 
-                className="text-lg px-8 py-6 rounded-2xl bg-card/20 border-card text-card hover:bg-card hover:text-primary backdrop-blur-sm"
+                className="text-lg px-8 py-6 rounded-2xl bg-accent/90 border-2 border-accent text-accent-foreground hover:bg-accent hover:scale-105 transition-all backdrop-blur-sm shadow-xl font-bold"
               >
-                Take Impact Quiz
+                ⚡ What's Your Energy Personality? 🌍
               </Button>
             </Link>
           </div>
